@@ -26,17 +26,37 @@
           placeholder="min 0.005"
         />
       </div>
+      <div class="flex flex-row items-center justify-between space-x-4 mt-12">
+        <Button
+          :disabled="!total"
+          class="w-3/4"
+          @click="postData('buy')"
+        >
+          BUY
+        </Button>
+        <Button
+          palette="outline-red"
+          size="normal"
+          :disabled="kick === 0 || eth === 0"
+          @click="postData('sell')"
+        >
+          SELL
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import KickEcoInput from '@/components/KickEcoInput.vue';
+import Button from '@/components/Button.vue';
+import postCryptoOperation from '@/api';
 
 export default {
   name: 'App',
   components: {
     KickEcoInput,
+    Button,
   },
   data() {
     return {
@@ -62,6 +82,41 @@ export default {
       if (this.price !== '') {
         this.amount = Number(v) / Number(this.price);
       }
+    },
+  },
+  methods: {
+    buyCrypto() {
+      this.kick += Number(this.amount);
+      this.eth += Number(this.total);
+    },
+    sellCrypto() {
+      const newKick = this.kick - this.amount;
+      const newEth = this.eth - this.total;
+
+      if (newKick >= 0 && newEth >= 0) {
+        this.kick = newKick;
+        this.eth = newEth;
+        return true;
+      }
+
+      throw new Error('Can\'t be bellow 0');
+    },
+    postData(operationType) {
+      const operations = new Map([
+        ['buy', () => this.buyCrypto()],
+        ['sell', () => this.sellCrypto()],
+      ]);
+      const cb = operations.get(operationType);
+
+      postCryptoOperation(cb)
+        .then(() => {
+          this.setDefaultInputs();
+        });
+    },
+    setDefaultInputs() {
+      this.price = '';
+      this.amount = '';
+      this.total = '';
     },
   },
 };
