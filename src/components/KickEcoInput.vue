@@ -2,9 +2,8 @@
   <FormInput
     v-model="currentValue"
     :placeholder="placeholder"
-    :focusRef="focusRef"
     classes="rounded-lg overflow-hidden "
-    inputClass="kickeco-input text-right text-base"
+    input-class="kickeco-input text-right text-base"
     @blur="blurHandler"
     @keyup.up="increment"
     @keyup.down="decrement"
@@ -73,10 +72,6 @@ export default {
       type: String,
       default: '',
     },
-    focusRef: {
-      type: String,
-      default: 'input',
-    },
   },
   data() {
     return {
@@ -108,6 +103,10 @@ export default {
       }
     },
     increment() {
+      if (!this.currentValue) {
+        this.currentValue = '0.00000001';
+        return;
+      }
       this.currentValue = this.currentValue.replace(/\d+$/, (m) => parseInt(m, 10) + 1);
     },
     decrement() {

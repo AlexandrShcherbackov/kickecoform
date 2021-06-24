@@ -50,7 +50,7 @@
 <script>
 import KickEcoInput from '@/components/KickEcoInput.vue';
 import Button from '@/components/Button.vue';
-import postCryptoOperation from '@/api';
+import postCryptoOperation from '@/api/';
 
 export default {
   name: 'App',
