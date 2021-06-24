@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vertical-arrow {
+  @apply relative;
+  @apply inline-block;
+  width: 10px;
+  height: 10px;
+
+  &:before, &:after {
+    @apply block;
+    @apply absolute;
+    @apply top-2/4;
+    content: '';
+    width: 6.5px;
+    height: 1.5px;
+    border-radius: 1px;
+    transition: all ease 0.2s;
+    background-color: #434343;
+  }
+
+  &:before {
+    @apply left-0;
+    transform: translateY(-20%) rotate(45deg);
+  }
+
+  &:after {
+    @apply right-0;
+    transform: translateY(-20%) rotate(-45deg);
+  }
+
+  &.active {
+    &:before {
+      transform: translateY(-50%) rotate(-45deg);
+    }
+
+    &:after {
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+}
