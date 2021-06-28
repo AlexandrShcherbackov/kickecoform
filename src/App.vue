@@ -11,22 +11,28 @@
       <div class="flex flex-col w-440px space-y-4 mt-4">
         <KickEcoInput
           :value="price"
+          :initial-focus="focusedEl === 'price'"
           prependText="Price"
           appendText="ETH"
           @input="handlePrice"
+          @enter="focusedEl = 'amount'"
         />
         <KickEcoInput
           :value="amount"
+          :initial-focus="focusedEl === 'amount'"
           prependText="Amount"
           appendText="KICK"
           @input="handleAmount"
+          @enter="focusedEl = 'total'"
         />
         <KickEcoInput
           :value="total"
+          :initial-focus="focusedEl === 'total'"
           prependText="Total ~"
           appendText="ETH"
           placeholder="min 0.005"
           @input="handleTotal"
+          @enter="focusedEl = null"
         />
       </div>
       <div class="flex flex-row items-center justify-between space-x-4 mt-12">
@@ -40,7 +46,7 @@
         <Button
           palette="outline-red"
           size="normal"
-          :disabled="kick === 0 || eth === 0"
+          :disabled="kick === 0 || eth === 0 || !total"
           @click="postData('sell')"
         >
           SELL
@@ -68,6 +74,7 @@ export default {
       total: '',
       kick: 0,
       eth: 0,
+      focusedEl: null,
     };
   },
   methods: {

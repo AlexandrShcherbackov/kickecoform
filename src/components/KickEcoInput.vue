@@ -1,5 +1,6 @@
 <template>
   <FormInput
+    ref="input"
     v-model="currentValue"
     :placeholder="placeholder"
     classes="rounded-lg overflow-hidden "
@@ -8,6 +9,7 @@
     @keyup.up="increment"
     @keyup.down="decrement"
     @click="setFocus"
+    @keypress.enter="$emit('enter')"
   >
     <template #prepend>
       <div class="flex items-center">
@@ -72,6 +74,10 @@ export default {
       type: String,
       default: '',
     },
+    initialFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -79,6 +85,18 @@ export default {
     };
   },
   watch: {
+    initialFocus: {
+      immediate: true,
+      handler(v) {
+        if (v) {
+          this.$refs.input.focus();
+          this.$refs.input.focusInput();
+        } else {
+          this.$refs.input.blur();
+          this.$refs.input.blurInput();
+        }
+      },
+    },
     value: {
       immediate: true,
       handler(v) {
