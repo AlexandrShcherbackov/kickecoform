@@ -32,7 +32,7 @@
           appendText="ETH"
           placeholder="min 0.005"
           @input="handleTotal"
-          @enter="focusedEl = null"
+          @enter="focusedEl = 'price'"
         />
       </div>
       <div class="flex flex-row items-center justify-between space-x-4 mt-12">
@@ -91,6 +91,7 @@ export default {
 
       if (this.total === '' || this.price === '') {
         this.amount = '';
+        return;
       }
 
       const decimalPart = String(this.amount).match(/\.\d+$/);
