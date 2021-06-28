@@ -105,8 +105,8 @@ export default {
         return;
       }
 
-      const price = this.price.replace(/\.$/, '');
-      const amount = this.amount.replace(/\.$/, '');
+      const price = String(this.price).replace(/\.$/, '');
+      const amount = String(this.amount).replace(/\.$/, '');
       this.total = parseFloat(price) * parseFloat(amount);
     },
     buyCrypto() {
