@@ -8,6 +8,14 @@
     <span
       :class="_classes"
       class="flex flex-row items-stretch justify-between space-x-2 border"
+      @click="$emit('click', $event, {
+        api: {
+          focus,
+          blur,
+          focusInput,
+          blurInput,
+        },
+      })"
     >
       <template v-if="$slots.prepend || $scopedSlots.prepend">
         <slot
@@ -205,6 +213,16 @@ export default {
     blur() {
       this.focused = false;
       this.$emit('blur');
+    },
+    focusInput() {
+      if (typeof this.input?.focus === 'function') {
+        this.input.focus();
+      }
+    },
+    blurInput() {
+      if (typeof this.input?.blur === 'function') {
+        this.input.blur();
+      }
     },
   },
 };

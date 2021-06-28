@@ -7,7 +7,7 @@
     @blur="blurHandler"
     @keyup.up="increment"
     @keyup.down="decrement"
-    @keypress.enter="$emit('enter')"
+    @click="setFocus"
   >
     <template #prepend>
       <div class="flex items-center">
@@ -107,10 +107,22 @@ export default {
         this.currentValue = '0.00000001';
         return;
       }
-      this.currentValue = this.currentValue.replace(/\d+$/, (m) => parseInt(m, 10) + 1);
+      const [decimalPart] = this.currentValue.match(/\d+$/);
+      const modStr = '0.'.padEnd(decimalPart.length + 1, '0') + 1;
+
+      this.currentValue = (Number(this.currentValue) + Number(modStr)).toFixed(decimalPart.length);
     },
     decrement() {
-      this.currentValue = this.currentValue.replace(/\d+$/, (m) => parseInt(m, 10) - 1);
+      const [decimalPart] = this.currentValue.match(/\d+$/);
+      const modStr = '0.'.padEnd(decimalPart.length + 1, '0') + 1;
+
+      this.currentValue = (Number(this.currentValue) - Number(modStr)).toFixed(decimalPart.length);
+    },
+    setFocus(e, rest) {
+      if (e.type === 'click' && rest) {
+        rest.api.focus();
+        rest.api.focusInput();
+      }
     },
   },
 };
