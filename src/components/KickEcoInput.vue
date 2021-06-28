@@ -85,17 +85,14 @@ export default {
     };
   },
   watch: {
-    initialFocus: {
-      immediate: true,
-      handler(v) {
-        if (v) {
-          this.$refs.input.focus();
-          this.$refs.input.focusInput();
-        } else {
-          this.$refs.input.blur();
-          this.$refs.input.blurInput();
-        }
-      },
+    initialFocus(v) {
+      if (v) {
+        this.$refs.input.focus();
+        this.$refs.input.focusInput();
+      } else {
+        this.$refs.input.blur();
+        this.$refs.input.blurInput();
+      }
     },
     value: {
       immediate: true,
